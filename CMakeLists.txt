@@ -7,8 +7,11 @@ FIND_PACKAGE(Qt4 REQUIRED)
 #this include set all the qt variable need to compile qt 
 INCLUDE(${QT_USE_FILE})
 
+#Add qt definitions
+ADD_DEFINITIONS(${QT_DEFINITIONS})
+
 #Put here all headers files that need moc 
-SET( Qt4_SRC
+SET( Qt4_HEADERS
 )
 
 #Put here .ui form files
@@ -20,9 +23,12 @@ SET( Qt4_RES mice.qrc
 )
 
 #Cmake macro 
-QT4_WRAP_CPP(MOC_CPP ${Qt4_SRC})
+QT4_WRAP_CPP(MOC_CPP ${Qt4_HEADERS})
 QT4_WRAP_UI(UI_CPP ${Qt4_UI})
 QT4_ADD_RESOURCES(RES_H ${Qt4_RES})
+
+#With this line, all intermediary files will be available in the include path.
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
 ################################################# CPack
 INCLUDE(InstallRequiredSystemLibraries)
@@ -57,8 +63,6 @@ INCLUDE(CPack)
 SET(CMAKE_BUILD_TYPE Release)
 
 SET(CMAKE_CXX_FLAGS "-Wall")
-
-INCLUDE_DIRECTORIES( . )
 
 SET( SRC
 	main.cpp
